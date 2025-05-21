@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home"
+        android:title="Главная" />
+    <item
+        android:id="@+id/navigation_specs"
+        android:icon="@drawable/ic_specs"
+        android:title="Характеристики" />
+    <item
+        android:id="@+id/navigation_maintenance"
+        android:icon="@drawable/ic_maintenance"
+        android:title="ТО" />
+</menu>

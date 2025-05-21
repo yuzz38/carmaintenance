@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Учет ТО автомобиля</string>
+
+    <string-array name="engine_types">
+        <item>бензиновый</item>
+        <item>дизельный</item>
+    </string-array>
+
+    <string-array name="drive_types">
+        <item>передний</item>
+        <item>задний</item>
+        <item>полный</item>
+    </string-array>
+
+    <string-array name="transmission_types">
+        <item>механика</item>
+        <item>автомат</item>
+        <item>вариатор</item>
+        <item>робот</item>
+    </string-array>
+    <string name="select_image">Выбрать изображение</string>
+    <string name="car_image">Изображение автомобиля</string>
+</resources>
