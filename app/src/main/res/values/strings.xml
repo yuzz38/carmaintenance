@@ -20,4 +20,10 @@
     </string-array>
     <string name="select_image">Выбрать изображение</string>
     <string name="car_image">Изображение автомобиля</string>
+    <string name="type_engine">Тип двигателя:</string>
+    <string name="type_drive">Привод:</string>
+    <string name="type_transmission">Тип коробки:</string>
+    <string name="average_mileage">Средний пробег в день (км):</string>
+    <string name="button_save">Сохранить</string>
+    <string name="real_mileage">Текущий пробег (км)</string>
 </resources>

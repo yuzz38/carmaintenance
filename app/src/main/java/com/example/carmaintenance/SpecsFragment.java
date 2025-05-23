@@ -4,6 +4,7 @@ package com.example.carmaintenance;
 import static android.app.Activity.RESULT_OK;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,12 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class SpecsFragment extends Fragment {
     private static final String ARG_CAR = "car";
@@ -100,8 +105,39 @@ public class SpecsFragment extends Fragment {
             intent.putExtra("car", car);
             startActivityForResult(intent, 1);
         });
-
+        Button deleteButton = root.findViewById(R.id.delete_button);
+        deleteButton.setOnClickListener(v -> showDeleteConfirmationDialog());
         return root;
+    }
+    private void showDeleteConfirmationDialog() {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Удаление автомобиля")
+                .setMessage("Вы уверены, что хотите удалить данные об автомобиле?")
+                .setPositiveButton("Да", (dialog, which) -> deleteCar())
+                .setNegativeButton("Нет", null)
+                .show();
+    }
+    private void deleteCar() {
+        // Создаем новый пустой автомобиль
+        Car emptyCar = new Car();
+
+        // Сохраняем пустой автомобиль
+        ((MainActivity) requireActivity()).saveCarData(emptyCar);
+
+        // Обновляем текущий автомобиль
+        car = emptyCar;
+
+        // Обновляем UI
+        updateUI();
+
+        // Возвращаемся на главный экран
+        // Переходим на главный экран
+        BottomNavigationView navView = requireActivity().findViewById(R.id.nav_view);
+        navView.setSelectedItemId(R.id.navigation_home);
+
+
+
+        Toast.makeText(getContext(), "Автомобиль удален", Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onResume() {

@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="10dp"
-    android:paddingTop="24dp">
+    android:paddingTop="24dp"
+    android:textDirection="locale">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,16 +12,15 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Название автомобиля:" />
 
         <EditText
             android:id="@+id/car_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Название авто"
             android:inputType="text" />
+
+
         <EditText
             android:id="@+id/license_plate"
             android:layout_width="match_parent"
@@ -28,38 +28,55 @@
             android:layout_marginTop="8dp"
             android:hint="Госномер"
             android:inputType="textCapCharacters"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:textAllCaps="true" />
+
         <EditText
             android:id="@+id/current_mileage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:hint="Текущий пробег (км)" />
+            android:layout_marginTop="8dp"
+            android:hint="@string/real_mileage"
+            android:inputType="number" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Год выпуска:" />
 
         <EditText
             android:id="@+id/year"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Год выпуска"
             android:inputType="number" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Фотография:" />
-        <ImageView
-            android:id="@+id/car_image"
+
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="16dp"
-            android:contentDescription="@string/car_image"
-            android:scaleType="centerCrop" />
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:id="@+id/car_image"
+                android:layout_width="200dp"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/car_image" />
+
+            <ImageButton
+                android:id="@+id/delete_image_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="8dp"
+                android:background="@drawable/ic_close_circle"
+                android:visibility="gone" />
+        </RelativeLayout>
 
         <Button
             android:id="@+id/select_image_button"
@@ -67,11 +84,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:text="@string/select_image" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Тип двигателя:" />
+            android:text="@string/type_engine" />
 
         <Spinner
             android:id="@+id/engine_type"
@@ -82,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Привод:" />
+            android:text="@string/type_drive" />
 
         <Spinner
             android:id="@+id/drive_type"
@@ -93,7 +111,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Тип коробки:" />
+            android:text="@string/type_transmission" />
 
         <Spinner
             android:id="@+id/transmission_type"
@@ -104,7 +122,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Средний пробег в день (км):" />
+            android:text="@string/average_mileage" />
 
         <EditText
             android:id="@+id/daily_mileage"
@@ -117,7 +135,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Сохранить" />
+            android:text="@string/button_save" />
 
     </LinearLayout>
 </ScrollView>

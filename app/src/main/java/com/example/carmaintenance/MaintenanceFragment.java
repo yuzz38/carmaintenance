@@ -65,6 +65,11 @@ public class MaintenanceFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if (car == null || car.getName() == null || car.getName().isEmpty()) {
+            // Перенаправляем на главный экран
+            ((MainActivity) requireActivity()).redirectToHome();
+            return new View(requireContext()); // Возвращаем пустое View
+        }
         View root = inflater.inflate(R.layout.fragment_maintenance, container, false);
 
         initViews(root);

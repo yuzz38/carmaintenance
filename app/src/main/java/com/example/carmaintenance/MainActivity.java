@@ -4,6 +4,7 @@ package com.example.carmaintenance;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -29,21 +30,35 @@ public class MainActivity extends AppCompatActivity {
         navView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
             int itemId = item.getItemId();
+            // Проверяем, есть ли данные об автомобиле
+            boolean hasCarData = car != null && car.getName() != null && !car.getName().isEmpty();
 
             if (itemId == R.id.navigation_home) {
-                selectedFragment = HomeFragment.newInstance(car);
-            } else if (itemId == R.id.navigation_specs) {
-                selectedFragment = SpecsFragment.newInstance(car);
-            } else if (itemId == R.id.navigation_maintenance) {
-                selectedFragment = MaintenanceFragment.newInstance(car);
-            }
-
-            if (selectedFragment != null) {
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, selectedFragment)
+                        .replace(R.id.fragment_container, HomeFragment.newInstance(car))
                         .commit();
                 return true;
+            }
+            else if (itemId == R.id.navigation_specs) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, SpecsFragment.newInstance(car))
+                        .commit();
+                return true;
+            }
+            else if (itemId == R.id.navigation_maintenance) {
+                if (hasCarData) {
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, MaintenanceFragment.newInstance(car))
+                            .commit();
+                    return true;
+                } else {
+                    Toast.makeText(this, "Сначала добавьте автомобиль", Toast.LENGTH_SHORT).show();
+                    navView.setSelectedItemId(R.id.navigation_home); // Возвращаем на главный экран
+                    return false;
+                }
             }
 
             return false;
@@ -53,7 +68,11 @@ public class MainActivity extends AppCompatActivity {
             navView.setSelectedItemId(R.id.navigation_home);
         }
     }
-
+    public void redirectToHome() {
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView.setSelectedItemId(R.id.navigation_home);
+        Toast.makeText(this, "Сначала добавьте автомобиль", Toast.LENGTH_SHORT).show();
+    }
     public void saveCarData(Car updatedCar) {
         this.car = updatedCar;
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);

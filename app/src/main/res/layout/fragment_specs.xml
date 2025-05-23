@@ -32,12 +32,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="ГОС номер:" />
+
         <TextView
             android:id="@+id/license_plate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textSize="16sp"/>
+            android:textAllCaps="true"
+            android:textSize="16sp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -102,6 +104,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="Редактировать" />
-
+        <Button
+            android:id="@+id/delete_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Удалить авто"
+            android:backgroundTint="@color/red" />
     </LinearLayout>
 </ScrollView>
