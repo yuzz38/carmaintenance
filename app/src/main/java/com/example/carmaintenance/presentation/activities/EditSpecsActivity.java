@@ -1,14 +1,15 @@
-package com.example.carmaintenance;
+package com.example.carmaintenance.presentation.activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -17,34 +18,52 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.carmaintenance.R;
+import com.example.carmaintenance.data.Car;
+
 public class EditSpecsActivity extends AppCompatActivity {
     private Car car;
     private ImageView carImageView;
     private ActivityResultLauncher<Intent> imagePickerLauncher;
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri imageUri;
+    private ImageButton deleteImageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_specs);
         EditText currentMileage = findViewById(R.id.current_mileage);
-
+        carImageView = findViewById(R.id.car_image);
+        deleteImageButton = findViewById(R.id.delete_image_button);
         car = (Car) getIntent().getSerializableExtra("car");
         if (car == null) {
             car = new Car();
         }
+        // Проверяем, есть ли изображение
 
         if (car.getImageUriString() != null && !car.getImageUriString().isEmpty()) {
             try {
                 imageUri = Uri.parse(car.getImageUriString());
                 carImageView.setImageURI(imageUri);
+                deleteImageButton.setVisibility(View.VISIBLE);
             } catch (Exception e) {
                 Log.e("EditSpecs", "Error loading image", e);
             }
         }
+        else {
+            carImageView.setImageResource(R.drawable.default_car);
+            deleteImageButton.setVisibility(View.GONE);
+        }
 
-
+        // Обработчик кнопки удаления изображения
+        deleteImageButton.setOnClickListener(v -> {
+            carImageView.setImageResource(R.drawable.default_car);
+            car.setImageUriString(null);
+            car.setImagePath(null);
+            imageUri = null;
+            deleteImageButton.setVisibility(View.GONE);
+        });
         // Инициализация UI элементов
         carImageView = findViewById(R.id.car_image);
         Button selectImageButton = findViewById(R.id.select_image_button);
@@ -143,6 +162,13 @@ public class EditSpecsActivity extends AppCompatActivity {
                 // В saveButton.setOnClickListener перед finish():
                 if (imageUri != null) {
                     car.setImageUriString(imageUri.toString());
+                } else {
+                    car.setImageUriString(null);
+                }
+                // Если изображение удалено, сохраняем это
+                if (imageUri == null) {
+                    car.setImageUriString(null);
+                    car.setImagePath(null);
                 }
                 finish();
             } catch (Exception e) {
@@ -162,6 +188,7 @@ public class EditSpecsActivity extends AppCompatActivity {
                     Intent.FLAG_GRANT_READ_URI_PERMISSION);
             carImageView.setImageURI(imageUri);
             car.setImageUriString(imageUri.toString());
+            deleteImageButton.setVisibility(View.VISIBLE);
         }
     }
 }

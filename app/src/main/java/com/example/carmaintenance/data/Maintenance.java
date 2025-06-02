@@ -1,4 +1,4 @@
-package com.example.carmaintenance;
+package com.example.carmaintenance.data;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -62,4 +62,5 @@ public class Maintenance implements Serializable {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+
 }

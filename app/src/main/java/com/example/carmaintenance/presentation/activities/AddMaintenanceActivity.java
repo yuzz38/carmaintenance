@@ -1,4 +1,4 @@
-package com.example.carmaintenance;
+package com.example.carmaintenance.presentation.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,6 +9,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.carmaintenance.R;
+import com.example.carmaintenance.data.Maintenance;
 
 import java.util.Date;
 

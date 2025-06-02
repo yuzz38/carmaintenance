@@ -1,5 +1,5 @@
 // SpecsFragment.java
-package com.example.carmaintenance;
+package com.example.carmaintenance.presentation.fragments;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -21,6 +21,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import com.example.carmaintenance.R;
+import com.example.carmaintenance.data.Car;
+import com.example.carmaintenance.presentation.activities.EditSpecsActivity;
+import com.example.carmaintenance.presentation.activities.MainActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class SpecsFragment extends Fragment {

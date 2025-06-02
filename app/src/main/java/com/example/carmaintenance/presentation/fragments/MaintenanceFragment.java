@@ -1,4 +1,4 @@
-package com.example.carmaintenance;
+package com.example.carmaintenance.presentation.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,6 +17,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.carmaintenance.R;
+import com.example.carmaintenance.data.Car;
+import com.example.carmaintenance.data.Maintenance;
+import com.example.carmaintenance.presentation.activities.AddMaintenanceActivity;
+import com.example.carmaintenance.presentation.activities.EditIntervalsActivity;
+import com.example.carmaintenance.presentation.activities.MainActivity;
+
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
@@ -33,7 +40,7 @@ public class MaintenanceFragment extends Fragment {
 
     private TextView transmissionOilView;
     private TextView brakePadsView;
-
+    private Button editIntervalsButton;
     public static MaintenanceFragment newInstance(Car car) {
         MaintenanceFragment fragment = new MaintenanceFragment();
         Bundle args = new Bundle();
@@ -71,7 +78,8 @@ public class MaintenanceFragment extends Fragment {
             return new View(requireContext()); // Возвращаем пустое View
         }
         View root = inflater.inflate(R.layout.fragment_maintenance, container, false);
-
+        editIntervalsButton = root.findViewById(R.id.edit_intervals_button);
+        editIntervalsButton.setOnClickListener(v -> openEditIntervalsActivity());
         initViews(root);
         setupRecyclerView(root);
         setupButtonListeners(root);
@@ -79,6 +87,33 @@ public class MaintenanceFragment extends Fragment {
 
         return root;
     }
+    private void openEditIntervalsActivity() {
+        Intent intent = new Intent(getActivity(), EditIntervalsActivity.class);
+        intent.putExtra("car", car);
+        addMaintenanceLauncher.launch(intent);
+    }
+    private void handleMaintenanceResult(Intent data) {
+        if (data == null) return;
+
+        if (data.hasExtra("maintenance")) {
+            // Это результат добавления нового ТО
+            Maintenance maintenance = (Maintenance) data.getSerializableExtra("maintenance");
+            if (maintenance != null) {
+                car.addMaintenance(maintenance);
+            }
+        } else if (data.hasExtra("car")) {
+            // Это результат изменения интервалов
+            car = (Car) data.getSerializableExtra("car");
+        }
+
+        // Сохраняем изменения и обновляем UI
+        ((MainActivity) requireActivity()).saveCarData(car);
+        updateMaintenanceInfo();
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
 
 
     private void initViews(View root) {
@@ -132,15 +167,7 @@ public class MaintenanceFragment extends Fragment {
 
 
 
-    private void handleMaintenanceResult(Intent data) {
-        Maintenance maintenance = (Maintenance) data.getSerializableExtra("maintenance");
-        if (maintenance != null) {
-            car.addMaintenance(maintenance);
-            ((MainActivity) requireActivity()).saveCarData(car);
-            updateMaintenanceInfo();
-            adapter.notifyDataSetChanged();
-        }
-    }
+
 
     private void updateMaintenanceInfo() {
         Car.MaintenanceTask nextTask = car.getNextMaintenance();
@@ -190,6 +217,7 @@ public class MaintenanceFragment extends Fragment {
         super.onResume();
         if (getActivity() != null) {
             car = ((MainActivity) getActivity()).getCar();
+            car.updateDailyData(); // Обновляем данные
             updateMaintenanceInfo();
             if (adapter != null) {
                 adapter.notifyDataSetChanged();

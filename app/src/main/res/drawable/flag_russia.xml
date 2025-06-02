@@ -1,0 +1,28 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="30dp"
+    android:viewportWidth="40"
+    android:viewportHeight="30">
+
+    <!-- Белая полоса (верхняя) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M0,0 h40 v10 h-40 z"/>
+
+    <!-- Синяя полоса (средняя) -->
+    <path
+        android:fillColor="#0039A6"
+        android:pathData="M0,10 h40 v10 h-40 z"/>
+
+    <!-- Красная полоса (нижняя) -->
+    <path
+        android:fillColor="#D52B1E"
+        android:pathData="M0,20 h40 v10 h-40 z"/>
+
+    <!-- Контур флага (рамка) -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#80000000"
+        android:strokeWidth="0.5"
+        android:pathData="M0,0 h40 v30 h-40 z"/>
+</vector>

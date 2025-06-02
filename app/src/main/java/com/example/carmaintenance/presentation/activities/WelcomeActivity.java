@@ -1,9 +1,11 @@
-package com.example.carmaintenance;
+package com.example.carmaintenance.presentation.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.carmaintenance.R;
 
 public class WelcomeActivity extends AppCompatActivity {
     private static final int SPLASH_DELAY = 2000; // 2 секунды

@@ -62,10 +62,11 @@
 
             <ImageView
                 android:id="@+id/car_image"
-                android:layout_width="200dp"
+                android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:scaleType="centerCrop"
-                android:contentDescription="@string/car_image" />
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/car_image"
+                android:scaleType="centerInside" />
 
             <ImageButton
                 android:id="@+id/delete_image_button"

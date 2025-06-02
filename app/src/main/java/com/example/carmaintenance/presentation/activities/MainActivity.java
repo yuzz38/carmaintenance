@@ -1,14 +1,20 @@
 // MainActivity.java
-package com.example.carmaintenance;
+package com.example.carmaintenance.presentation.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+
+import com.example.carmaintenance.presentation.fragments.HomeFragment;
+import com.example.carmaintenance.presentation.fragments.MaintenanceFragment;
+import com.example.carmaintenance.R;
+import com.example.carmaintenance.presentation.fragments.SpecsFragment;
+import com.example.carmaintenance.data.Car;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 
@@ -104,8 +110,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         // Обновляем данные автомобиля при каждом открытии приложения
-        car.updateDailyData();
-        saveCarData(car);
+        if (car != null) {
+            car.updateDailyData();
+            saveCarData(car);
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null) {
+            Car updatedCar = (Car) data.getSerializableExtra("car");
+            if (updatedCar != null) {
+                saveCarData(updatedCar);
+                // Обновляем текущий фрагмент
+                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                if (currentFragment instanceof MaintenanceFragment) {
+                    ((MaintenanceFragment) currentFragment).onActivityResult(requestCode, resultCode, data);
+                }
+            }
+        }
     }
 
 }

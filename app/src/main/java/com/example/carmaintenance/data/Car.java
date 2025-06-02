@@ -1,9 +1,7 @@
-package com.example.carmaintenance;
+package com.example.carmaintenance.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -19,7 +17,9 @@ public class Car implements Serializable {
     private String transmissionType; // автомат, механика, вариатор, робот
     private double dailyMileage; // средний пробег в день (км)
     private String imagePath;
-
+    private int customOilChangeInterval = -1;
+    private int customTransmissionOilChangeInterval = -1;
+    private int customBrakePadsChangeInterval = -1;
     // Текущий пробег и дата последнего обновления
     private int currentMileage;
     private long lastUpdateDate;
@@ -42,6 +42,7 @@ public class Car implements Serializable {
     public void setImageUriString(String imageUriString) {
         this.imageUriString = imageUriString;
     }
+
     public Car() {
         maintenanceHistory = new ArrayList<>();
         lastUpdateDate = System.currentTimeMillis();
@@ -98,13 +99,28 @@ public class Car implements Serializable {
 
     public List<Maintenance> getMaintenanceHistory() { return maintenanceHistory; }
     public void setMaintenanceHistory(List<Maintenance> maintenanceHistory) { this.maintenanceHistory = maintenanceHistory; }
+    public void setCustomOilChangeInterval(int interval) {
+        this.customOilChangeInterval = interval;
+    }
+
+    public void setCustomTransmissionOilChangeInterval(int interval) {
+        this.customTransmissionOilChangeInterval = interval;
+    }
+
+    public void setCustomBrakePadsChangeInterval(int interval) {
+        this.customBrakePadsChangeInterval = interval;
+    }
 
     // Методы расчета интервалов
     public int getOilChangeInterval() {
-        return "дизельный".equals(engineType) ? 15000 : 5000;
+        return customOilChangeInterval > 0 ? customOilChangeInterval :
+                "дизельный".equals(engineType) ? 15000 : 5000;
     }
 
     public int getTransmissionOilChangeInterval() {
+        if (customTransmissionOilChangeInterval > 0) {
+            return customTransmissionOilChangeInterval;
+        }
         if (transmissionType == null) return 50000;
         switch (transmissionType) {
             case "автомат": return 60000;
@@ -116,7 +132,7 @@ public class Car implements Serializable {
     }
 
     public int getBrakePadsChangeInterval() {
-        return 30000;
+        return customBrakePadsChangeInterval > 0 ? customBrakePadsChangeInterval : 30000;
     }
 
     // Обновление данных с учетом прошедшего времени
