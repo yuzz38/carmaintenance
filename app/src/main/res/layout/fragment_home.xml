@@ -35,6 +35,12 @@
                 android:textSize="30sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="4dp"/>
+            <Spinner
+                android:id="@+id/car_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:spinnerMode="dropdown"/>
 
             <ImageView
                 android:id="@+id/car_image"
@@ -89,10 +95,7 @@
                 android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="Проверить авто на штрафы"
-                android:textColor="#1E88E5"
-                android:textSize="16sp"
-                android:padding="8dp"/>
+                android:text="Проверить авто на штрафы"/>
 
             <TextView
                 android:id="@+id/next_maintenance"

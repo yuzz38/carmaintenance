@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.carmaintenance.R;
 import com.example.carmaintenance.data.Car;
 import com.example.carmaintenance.data.Maintenance;
+import com.example.carmaintenance.domain.CalculateNextMaintenanceUseCase;
+import com.example.carmaintenance.domain.CarMaintenanceUseCase;
 import com.example.carmaintenance.presentation.activities.AddMaintenanceActivity;
 import com.example.carmaintenance.presentation.activities.EditIntervalsActivity;
 import com.example.carmaintenance.presentation.activities.MainActivity;
@@ -96,17 +98,14 @@ public class MaintenanceFragment extends Fragment {
         if (data == null) return;
 
         if (data.hasExtra("maintenance")) {
-            // Это результат добавления нового ТО
             Maintenance maintenance = (Maintenance) data.getSerializableExtra("maintenance");
             if (maintenance != null) {
-                car.addMaintenance(maintenance);
+                new CarMaintenanceUseCase().addMaintenance(car, maintenance);
             }
         } else if (data.hasExtra("car")) {
-            // Это результат изменения интервалов
             car = (Car) data.getSerializableExtra("car");
         }
 
-        // Сохраняем изменения и обновляем UI
         ((MainActivity) requireActivity()).saveCarData(car);
         updateMaintenanceInfo();
         if (adapter != null) {
@@ -170,8 +169,8 @@ public class MaintenanceFragment extends Fragment {
 
 
     private void updateMaintenanceInfo() {
-        Car.MaintenanceTask nextTask = car.getNextMaintenance();
-
+        CalculateNextMaintenanceUseCase nextMaintenanceUseCase = new CalculateNextMaintenanceUseCase();
+        CalculateNextMaintenanceUseCase.MaintenanceTask nextTask = nextMaintenanceUseCase.getNextMaintenance(car);
 
         if (nextTask.daysLeft == 0) {
             nextMaintenanceView.setTextColor(Color.RED);
@@ -182,12 +181,13 @@ public class MaintenanceFragment extends Fragment {
                     nextTask.taskName, nextTask.daysLeft, nextTask.kmLeft));
         }
 
-
-
         updateServiceInfo(transmissionOilView, "Масло в коробке",
-                car.getTransmissionOilKmLeft(), car.getDaysUntilTransmissionOilChange());
+                nextMaintenanceUseCase.getTransmissionOilKmLeft(car),
+                nextMaintenanceUseCase.getDaysUntilTransmissionOilChange(car));
+
         updateServiceInfo(brakePadsView, "Тормозные колодки",
-                car.getBrakePadsKmLeft(), car.getDaysUntilBrakePadsChange());
+                nextMaintenanceUseCase.getBrakePadsKmLeft(car),
+                nextMaintenanceUseCase.getDaysUntilBrakePadsChange(car));
     }
 
     private void updateServiceInfo(TextView textView, String serviceName,
@@ -217,7 +217,7 @@ public class MaintenanceFragment extends Fragment {
         super.onResume();
         if (getActivity() != null) {
             car = ((MainActivity) getActivity()).getCar();
-            car.updateDailyData(); // Обновляем данные
+            new CalculateNextMaintenanceUseCase().updateDailyData(car);
             updateMaintenanceInfo();
             if (adapter != null) {
                 adapter.notifyDataSetChanged();

@@ -150,18 +150,5 @@ public class SpecsFragment extends Fragment {
         car = ((MainActivity) requireActivity()).getCar();
         updateUI();
     }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
-            Car updatedCar = (Car) data.getSerializableExtra("car");
-            if (updatedCar != null) {
-                ((MainActivity) requireActivity()).saveCarData(updatedCar);
 
-                // Полностью пересоздаем фрагмент
-                FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-                ft.detach(this).attach(this).commit();
-            }
-        }
-    }
 }

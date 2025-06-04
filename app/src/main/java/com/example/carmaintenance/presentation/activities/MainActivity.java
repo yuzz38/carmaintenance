@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
+import com.example.carmaintenance.domain.CalculateNextMaintenanceUseCase;
 import com.example.carmaintenance.presentation.fragments.HomeFragment;
 import com.example.carmaintenance.presentation.fragments.MaintenanceFragment;
 import com.example.carmaintenance.R;
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         // Обновляем данные автомобиля при каждом открытии приложения
         if (car != null) {
-            car.updateDailyData();
+            new CalculateNextMaintenanceUseCase().updateDailyData(car);
             saveCarData(car);
         }
     }

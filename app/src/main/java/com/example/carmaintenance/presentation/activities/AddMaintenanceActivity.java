@@ -80,9 +80,5 @@ public class AddMaintenanceActivity extends AppCompatActivity {
         finish();
     }
 
-    @Override
-    public void onBackPressed() {
-        setResult(Activity.RESULT_CANCELED);
-        super.onBackPressed();
-    }
+
 }

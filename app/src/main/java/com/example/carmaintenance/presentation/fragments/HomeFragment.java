@@ -22,6 +22,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.carmaintenance.R;
 import com.example.carmaintenance.data.Car;
+import com.example.carmaintenance.domain.CalculateNextMaintenanceUseCase;
 import com.example.carmaintenance.presentation.activities.EditSpecsActivity;
 import com.example.carmaintenance.presentation.activities.MainActivity;
 
@@ -108,7 +109,9 @@ public class HomeFragment extends Fragment {
             }
 
             // Обновляем информацию о ТО
-            Car.MaintenanceTask nextTask = car.getNextMaintenance();
+            CalculateNextMaintenanceUseCase nextMaintenanceUseCase = new CalculateNextMaintenanceUseCase();
+            CalculateNextMaintenanceUseCase.MaintenanceTask nextTask = nextMaintenanceUseCase.getNextMaintenance(car);
+
             if (nextTask.daysLeft == 0) {
                 nextMaintenance.setTextColor(Color.RED);
                 nextMaintenance.setText(nextTask.taskName);
@@ -176,7 +179,9 @@ public class HomeFragment extends Fragment {
                 carImage.setImageResource(R.drawable.default_car);
             }
 
-            Car.MaintenanceTask nextTask = car.getNextMaintenance();
+            CalculateNextMaintenanceUseCase nextMaintenanceUseCase = new CalculateNextMaintenanceUseCase();
+            CalculateNextMaintenanceUseCase.MaintenanceTask nextTask = nextMaintenanceUseCase.getNextMaintenance(car);
+
             if (nextTask.daysLeft == 0) {
                 nextMaintenance.setTextColor(Color.RED);
                 nextMaintenance.setText(nextTask.taskName);
@@ -210,7 +215,7 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         car = ((MainActivity) getActivity()).getCar();
-        car.updateDailyData();
+        new CalculateNextMaintenanceUseCase().updateDailyData(car);
         if (getView() != null) {
             onCreateView(getLayoutInflater(), (ViewGroup) getView(), null);
         }

@@ -1,4 +1,3 @@
-// EditIntervalsActivity.java
 package com.example.carmaintenance.presentation.activities;
 
 import android.app.Activity;
@@ -12,12 +11,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.carmaintenance.R;
 import com.example.carmaintenance.data.Car;
+import com.example.carmaintenance.domain.CalculateMaintenanceIntervalsUseCase;
 
 public class EditIntervalsActivity extends AppCompatActivity {
     private Car car;
     private EditText oilIntervalInput;
     private EditText transmissionOilIntervalInput;
     private EditText brakePadsIntervalInput;
+    private CalculateMaintenanceIntervalsUseCase intervalsUseCase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,15 +31,17 @@ public class EditIntervalsActivity extends AppCompatActivity {
             return;
         }
 
+        intervalsUseCase = new CalculateMaintenanceIntervalsUseCase();
+
         oilIntervalInput = findViewById(R.id.oil_interval);
         transmissionOilIntervalInput = findViewById(R.id.transmission_oil_interval);
         brakePadsIntervalInput = findViewById(R.id.brake_pads_interval);
         Button saveButton = findViewById(R.id.save_button);
 
-        // Set current values
-        oilIntervalInput.setText(String.valueOf(car.getOilChangeInterval()));
-        transmissionOilIntervalInput.setText(String.valueOf(car.getTransmissionOilChangeInterval()));
-        brakePadsIntervalInput.setText(String.valueOf(car.getBrakePadsChangeInterval()));
+        // Устанавливаем текущие значения через use case
+        oilIntervalInput.setText(String.valueOf(intervalsUseCase.getOilChangeInterval(car)));
+        transmissionOilIntervalInput.setText(String.valueOf(intervalsUseCase.getTransmissionOilChangeInterval(car)));
+        brakePadsIntervalInput.setText(String.valueOf(intervalsUseCase.getBrakePadsChangeInterval(car)));
 
         saveButton.setOnClickListener(v -> {
             try {
@@ -54,9 +57,6 @@ public class EditIntervalsActivity extends AppCompatActivity {
                 car.setCustomOilChangeInterval(oilInterval);
                 car.setCustomTransmissionOilChangeInterval(transOilInterval);
                 car.setCustomBrakePadsChangeInterval(brakePadsInterval);
-
-                // Обновляем данные о следующем ТО
-                car.updateDailyData();
 
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("car", car);
