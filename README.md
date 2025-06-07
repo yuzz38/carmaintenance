@@ -9,7 +9,8 @@
 ### На главной странице распологаются название авто, его изображение (если пользователь не добавил то дефолтная картинка). Госномер с возможность перейти на сайт для проверки наличия штрафов и информация через сколько дней проводить ТО.
 
 P.S Скриншоты приложения
+![image](https://github.com/user-attachments/assets/7fbb60f1-bfe3-4114-b50f-81bc6582af4c)
 
-![photo_2025-06-07_15-39-56](https://github.com/user-attachments/assets/5073b7d4-e93d-4f97-806f-a8ca5492d1af)
-![test1](https://github.com/user-attachments/assets/5ffc0fae-2254-4758-b13f-6dba7ba75381)
-![testMyWork](https://github.com/user-attachments/assets/9260ffb5-bdbd-4a2f-9490-a8282921c205)
+![image](https://github.com/user-attachments/assets/fc6763a4-bb36-4737-8338-5bba31490bf1)
+
+![image](https://github.com/user-attachments/assets/ebe99166-87fd-4252-905c-c3d423215a5d)
